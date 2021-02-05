@@ -12,6 +12,7 @@ public class RevHeadsModel {
     String subs;
     private String emr;
     String priceType;
+    String shift;
 
     public RevHeadsModel(int id, String revenueHead, String revenueCode, int revenueId, String amount, String dept, String department, String cate, String category, String subs, String emr, String priceType) {
         this.id = id;

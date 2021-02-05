@@ -1,6 +1,8 @@
 package com.impact.mobiprints.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ import com.impact.mobiprints.models.PaymentModel;
 import com.impact.mobiprints.models.RevHeadsModel;
 import com.impact.mobiprints.models.UserModel;
 import com.impact.mobiprints.models.WalletModel;
+import com.impact.mobiprints.utils.CustomAdapter;
+import com.impact.mobiprints.utils.CustomItem;
 import com.impact.mobiprints.utils.Helper;
 
 import java.util.ArrayList;
@@ -40,6 +44,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     List<String> departments, revHeads, paymentMethods, priceTypes;
     List<Double> amounts;
+    List<RevHeadsModel> mainRevHeads;
 
     List<String> dept, rHeads, pMethods, pTypes, sShifts, pTypeValues;
     DBHelper db;
@@ -49,6 +54,7 @@ public class PaymentActivity extends AppCompatActivity {
     EditText amount;
 
 
+    DrawerLayout drawerLayout;
 
     EditText payerName, payerPhone, payerEmail;
 
@@ -66,15 +72,9 @@ public class PaymentActivity extends AppCompatActivity {
     String pRef;
 
     String location, shiftData;
-    String mdaId, pName, pEmail, pNum, pMethod;
-    String revId;
-    String total;
-    String mainAmount;
-    String subs;
-    String pay_des;
-    String dpt;
-    String cat;
-    String category;
+    String  pName, pEmail, pNum;
+    AppDefaultsModel app;
+
     private PaymentModel paymentModel;
 
     public void initVar(){
@@ -105,6 +105,8 @@ public class PaymentActivity extends AppCompatActivity {
     public void init(){
         db = new DBHelper(getApplicationContext());
 
+
+        drawerLayout = findViewById(R.id.drawerLayout);
         payerName = findViewById(R.id.payerName);
         payerEmail = findViewById(R.id.payerEmail);
         payerPhone = findViewById(R.id.payerPhone);
@@ -125,6 +127,7 @@ public class PaymentActivity extends AppCompatActivity {
         priceTypes = new ArrayList<>();
         sShifts = new ArrayList<>();
         pTypeValues = new ArrayList<>();
+        mainRevHeads = new ArrayList<>();
 
         sShifts.add("--select shift--");
         sShifts.add("1");
@@ -136,6 +139,8 @@ public class PaymentActivity extends AppCompatActivity {
         pMethods.add("Card");
         pMethods.add("Cash");
         dModel = db.getDepts();
+        mainRevHeads = db.getRevHeads();
+        app = db.getAppDefaults();
 
         pTypes.add("Default");
         pTypes.add("Hospital Child");
@@ -160,13 +165,15 @@ public class PaymentActivity extends AppCompatActivity {
             dept.add(d.getDeptName());
         }
 
-        ArrayAdapter<String> shiftAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sShifts);
+        CustomAdapter shiftAdapter = new CustomAdapter(this, sShifts);
         shift.setAdapter(shiftAdapter);
+        shift.setSelection(0);
         shiftAdapter.notifyDataSetChanged();
 
 
-        ArrayAdapter<String> pMethodAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pMethods);
+        CustomAdapter pMethodAdapter = new CustomAdapter(this,  pMethods);
         payMethod.setAdapter(pMethodAdapter);
+        payMethod.setSelection(0);
         pMethodAdapter.notifyDataSetChanged();
 
         totalAmount = 0.0;
@@ -184,46 +191,37 @@ public class PaymentActivity extends AppCompatActivity {
         amount = view.findViewById(R.id.amount);
 
 
-        ArrayAdapter<String> deptAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dept);
+        CustomAdapter deptAdapter = new CustomAdapter(this,  dept);
         department.setAdapter(deptAdapter);
+        department.setSelection(0);
         deptAdapter.notifyDataSetChanged();
 
-        ArrayAdapter<String> pTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pTypes);
+       CustomAdapter pTypeAdapter = new CustomAdapter(this,  pTypes);
         priceType.setAdapter(pTypeAdapter);
+        priceType.setSelection(0);
         pTypeAdapter.notifyDataSetChanged();
 
         rHeads = new ArrayList<>();
         rHeads.add("--add revenue head--");
-        ArrayAdapter<String> rHeadAdapter = new ArrayAdapter<>(PaymentActivity.this, android.R.layout.simple_spinner_item, rHeads);
+        CustomAdapter rHeadAdapter = new CustomAdapter(PaymentActivity.this,  rHeads);
         revHead.setAdapter(rHeadAdapter);
+        revHead.setSelection(0);
 
-        amount.addTextChangedListener(new TextWatcher() {
-            int len;
-            double val;
+
+
+        priceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                len = amount.length();
-                if(amount.getText() != null)
-                    if(!amount.getText().toString().isEmpty())
-                        val = Double.parseDouble(amount.getText().toString());
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                priceTypes.add(pTypeValues.get(position));
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(len > amount.length()){
-                    totalAmount -= val;
-                    amountToPay.setText(new Helper().convertToFigure(totalAmount));
-                }
-                totalAmount += Double.parseDouble(amount.getText().toString());
-
-                amountToPay.setText(new Helper().convertToFigure(totalAmount));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
+
 
 
 
@@ -238,6 +236,25 @@ public class PaymentActivity extends AppCompatActivity {
                     }
 
                    rHeadAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        revHead.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
+                if(i == 0){
+                    showToast("select a revenue head");
+                    return;
+                }else
+                if(rModel.get(i-1).getAmount() != null && !rModel.get(i-1).getAmount().isEmpty() || rModel.get(i-1).getAmount().equalsIgnoreCase("NULL")){
+                    amount.setText(rModel.get(i-1).getAmount());
+                    amount.setEnabled(false);
                 }
             }
 
@@ -267,15 +284,16 @@ public class PaymentActivity extends AppCompatActivity {
             return;
         }
 
-       // totalAmount = totalAmount + Double.parseDouble(amount.getText().toString());
+
 
         departments.add(department.getSelectedItem().toString());
         revHeads.add(revHead.getSelectedItem().toString());
         amounts.add(Double.parseDouble(amount.getText().toString()));
-        priceTypes.add(pTypeValues.get((int)priceType.getSelectedItemId()));
+
 
         addViews();
     }
+
     public void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -315,12 +333,27 @@ public class PaymentActivity extends AppCompatActivity {
             showToast("you've not selected any payments");
             return;
         }
+        initVar();
+        if(totalAmount > walletModel.getBalance()){
+            showToast("you have insufficient balance to perform this transaction");
+        }
         findViewById(R.id.pay).setEnabled(true);
         addPD.setEnabled(false);
 
-        initVar();
 
-        shiftData = shift.getSelectedItem().toString();
+        shift.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                shiftData = shift.getSelectedItem().toString();
+                Toast.makeText(PaymentActivity.this, shift + "  jcjfjfjfj", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        pName = payerName.getText().toString();
 
         for(String s : departments){
             Log.d("DEPARTMENTS", s);
@@ -333,9 +366,12 @@ public class PaymentActivity extends AppCompatActivity {
         addPD.setEnabled(true);
 
         int rIndex;
-        for(int i = 0; i < rHeads.size(); i++){
+
+
+        for(int i = 0; i < revHeads.size(); i++){
             {
-                rIndex = revHeadId(revHeads.get(i));
+                String r = revHeads.get(i);
+                rIndex = revHeadId(r);
                 curr_balance = prev_balance - amounts.get(i);
                  paymentModel = new PaymentModel(0,
                         amounts.get(i),
@@ -352,25 +388,27 @@ public class PaymentActivity extends AppCompatActivity {
                         curr_balance + "",
                         rrr + "",
                         location + "",
-                        userModel.getMdaCode() + "",
-                        rIndex >= 0 ? rModel.get(rIndex).getRevenueId() + "" : "",
-                        walletModel.getAgentId() + "",
+                         app.getMdaId()+ "",
+                        mainRevHeads.get(rIndex).getRevenueId() + "",
+                        userModel.getUserId() + "",
                         quantity + "",
                         transFee + "",
                         amounts.get(i) - 0 + "",
                         payMethod.getSelectedItem().toString() + "",
-                        rModel.get(rIndex).getRevenueCode() + "",
+                        mainRevHeads.get(rIndex).getRevenueCode() + "",
                         "",
-                        rModel.get(rIndex).getDept() + "",
-                        rModel.get(rIndex).getDepartment() + "",
-                        rModel.get(rIndex).getCate() + "",
-                        rModel.get(rIndex).getCategory() + "",
+                        mainRevHeads.get(rIndex).getDept() + "",
+                        mainRevHeads.get(rIndex).getDepartment() + "",
+                        mainRevHeads.get(rIndex).getCate() + "",
+                        mainRevHeads.get(rIndex).getCategory() + "",
                         0 + "", amounts.get(i) + "",
-                        rModel.get(rIndex).getSubs() + "",
-                         rModel.get(rIndex).getEmr(),
-                         shiftData,
-                         rModel.get(rIndex).getPriceType()
+                        mainRevHeads.get(rIndex).getSubs() + "",
+                         mainRevHeads.get(rIndex).getEmr(),
+                         shift.getSelectedItem().toString(),
+                         mainRevHeads.get(i).getPriceType()
                 );
+
+
             }
 
             boolean b = db.addPayment(paymentModel);
@@ -393,12 +431,55 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     public int revHeadId(String val){
-        for(int r = 0; r < rModel.size(); r++){
-            if (rModel.get(r).getRevenueHead().equalsIgnoreCase(val)) {
-                return r;
+        int i = 0;
+        for(RevHeadsModel r : mainRevHeads){
+
+            if (r.getRevenueHead().equalsIgnoreCase(val)) {
+
+                return i;
             }
+            i++;
         }
         return -1;
+    }
+
+    public void clickMenu(View view){
+        openDrawer(drawerLayout);
+    }
+
+    private static void openDrawer(DrawerLayout drawerLayout) {
+
+        drawerLayout.openDrawer((GravityCompat.START));
+    }
+
+    public  void clickLogo(View view){
+        closeDrawer(drawerLayout);
+    }
+
+    private static void closeDrawer(DrawerLayout drawerLayout) {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
+public void clickWallet(View view){
+        /*startActivity(new Intent(Dashboard.this, WalletActivity.class));
+        finish();*/
+    }
+
+    public void clickReport(View view){
+
+    }
+
+    public void clickInvoice(View view){
+
+    }
+    public void clickHome(View view){
+
+    }
+
+    public void clickPayment(View view){
+        /*startActivity(new Intent(Dashboard.this, PaymentActivity.class));*/
     }
 
 

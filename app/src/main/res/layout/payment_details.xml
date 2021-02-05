@@ -17,12 +17,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edt"
         android:layout_marginBottom="5dp">
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:id="@+id/department"
+            android:background="@drawable/edt"
 
             />
     </FrameLayout>
@@ -38,12 +38,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edt"
+
         android:layout_marginBottom="5dp">
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:background="@drawable/edt"
             android:id="@+id/revHeads"
             />
 
@@ -60,12 +61,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edt"
+
         android:layout_marginBottom="5dp">
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:background="@drawable/edt"
             android:id="@+id/priceType"
             />
 
@@ -82,8 +84,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:textSize="18sp"
+        android:textColor="@color/teal_700"
         android:fontFamily="@font/larsseit"
         android:id="@+id/amount"
         android:padding="10dp"

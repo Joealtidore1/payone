@@ -148,7 +148,10 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(DEPARTMENT, payment.getDepartment());
         cv.put(CAT, payment.getCate());
         cv.put(CATEGORY, payment.getCategory());
-        /*cv.put(EMR, payment.getEmr());*/
+        cv.put(EMR, payment.getEmr());
+        cv.put(PRICETYPE, payment.getPriceType());
+        cv.put(SHIFT, payment.getShift());
+
 
         return db.insert(PAYMENT_TABLE_NAME, null, cv) != -1;
     }
@@ -166,7 +169,8 @@ public class DBHelper extends SQLiteOpenHelper {
             cv.put(DEPARTMENT, r.getDepartment());
             cv.put(CAT, r.getCate());
             cv.put(CATEGORY, r.getCategory());
-            /*cv.put(EMR, r.getEmr());*/
+            cv.put(EMR, r.getEmr());
+            cv.put(PRICETYPE, r.getPriceType());
 
             return db.insert(REV_HEADS_TABLE_NAME, null, cv) != -1;
     }
@@ -237,6 +241,11 @@ public class DBHelper extends SQLiteOpenHelper {
                     );
         }
         return model;
+    }
+
+    public void deleteRecs(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(PAYMENT_TABLE_NAME, null, null);
     }
 
     public AppDefaultsModel getAppDefaults(){
@@ -400,7 +409,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         List<PaymentModel> models = new ArrayList<>();
 
-        Cursor query = db.query(REV_HEADS_TABLE_NAME, null, null, null, null, null, null);
+        Cursor query = db.query(PAYMENT_TABLE_NAME, null, null, null, null, null, null);
         while(query.moveToNext()){
             models.add(new PaymentModel(
                     gI(ID, query),
@@ -458,6 +467,54 @@ public class DBHelper extends SQLiteOpenHelper {
         return val;
     }
 
+    public List<PaymentModel> getUnsynced(){
+        SQLiteDatabase db = getReadableDatabase();
+        String whereClause = PAYMENT_SYNCED + " = ?";
+        String[] args = {"0"};
+        List<PaymentModel> models = new ArrayList<>();
+
+        Cursor query = db.query(REV_HEADS_TABLE_NAME, null, null, null, null, null, null);
+        while(query.moveToNext()){
+            models.add(new PaymentModel(
+                    gI(ID, query),
+                    gD(PAYMENT_AMOUNT, query),
+                    gS(PAYMENT_PAYER_NAME, query),
+                    gS(PAYMENT_PAYER_PHONE, query),
+                    gS(PAYMENT_PAYER_EMAIL, query),
+                    gS(PAYMENT_PAYMENT_DATE, query),
+                    gS(PAYMENT_PAYMENT_TIME, query),
+                    gS(PAYMENT_AGENT, query),
+                    gS(PAYMENT_REVENUE_HEAD, query),
+                    gS(PAYMENT_SYNCED, query),
+                    gS(PAYMENT_REF, query),
+                    gS(PAYMENT_PREVIOUS_BALANCE, query),
+                    gS(PAYMENT_CURRENT_BALANCE, query),
+                    gS(PAYMENT_RRR, query),
+                    gS(PAYMENT_LOCATION, query),
+                    gS(PAYMENT_MDA_ID, query),
+                    gS(PAYMENT_REV_ID, query),
+                    gS(PAYMENT_AGENT_ID, query),
+                    gS(PAYMENT_QUANTITY, query),
+                    gS(PAYMENT_TRANS_FEE, query),
+                    gS(PAYMENT_TOTAL, query),
+                    gS(PAYMENT_METHOD, query),
+                    gS(PAYMENT_REV_CODE, query),
+                    gS(PAYMENT_LAST_SERIAL, query),
+                    gS(DEPT, query),
+                    gS(DEPARTMENT, query),
+                    gS(CAT, query),
+                    gS(CATEGORY, query),
+                    gS(PAYMENT_DISCOUNT, query),
+                    gS(PAYMENT_MAIN_AMT, query),
+                    gS(PAYMENT_SUBS, query),
+                    gS(EMR, query),
+                    gS(SHIFT, query),
+                    gS(PRICETYPE, query)
+            ));
+        }
+        return models;
+    }
+
     public String sum(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cur = db.rawQuery("SELECT SUM( "+ PAYMENT_AMOUNT +") FROM " + PAYMENT_TABLE_NAME, null);
@@ -486,6 +543,68 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] args = {"1"};
 
         return db.update(WALLET_TABLE_NAME, cv, whereClause, args) != 0;
+    }
+
+    public boolean updatePayment(String ref){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(PAYMENT_SYNCED, "1");
+
+        String whereClause = PAYMENT_REF + "=?";
+        String[] args = {ref};
+
+        return db.update(PAYMENT_TABLE_NAME, cv, whereClause, args) != 0;
+    }
+
+    public List<PaymentModel> getPaymentByRef(String ref){
+        SQLiteDatabase db = getReadableDatabase();
+        List<PaymentModel> models= new ArrayList<>();
+
+        String where = PAYMENT_REF + "=?";
+        String[] args = {ref};
+
+        Cursor query = db.query(PAYMENT_TABLE_NAME, null, where, args, null, null, null);
+        while(query.moveToNext()){
+            models.add(new PaymentModel(
+                    gI(ID, query),
+                    gD(PAYMENT_AMOUNT, query),
+                    gS(PAYMENT_PAYER_NAME, query),
+                    gS(PAYMENT_PAYER_PHONE, query),
+                    gS(PAYMENT_PAYER_EMAIL, query),
+                    gS(PAYMENT_PAYMENT_DATE, query),
+                    gS(PAYMENT_PAYMENT_TIME, query),
+                    gS(PAYMENT_AGENT, query),
+                    gS(PAYMENT_REVENUE_HEAD, query),
+                    gS(PAYMENT_SYNCED, query),
+                    gS(PAYMENT_REF, query),
+                    gS(PAYMENT_PREVIOUS_BALANCE, query),
+                    gS(PAYMENT_CURRENT_BALANCE, query),
+                    gS(PAYMENT_RRR, query),
+                    gS(PAYMENT_LOCATION, query),
+                    gS(PAYMENT_MDA_ID, query),
+                    gS(PAYMENT_REV_ID, query),
+                    gS(PAYMENT_AGENT_ID, query),
+                    gS(PAYMENT_QUANTITY, query),
+                    gS(PAYMENT_TRANS_FEE, query),
+                    gS(PAYMENT_TOTAL, query),
+                    gS(PAYMENT_METHOD, query),
+                    gS(PAYMENT_REV_CODE, query),
+                    gS(PAYMENT_LAST_SERIAL, query),
+                    gS(DEPT, query),
+                    gS(DEPARTMENT, query),
+                    gS(CAT, query),
+                    gS(CATEGORY, query),
+                    gS(PAYMENT_DISCOUNT, query),
+                    gS(PAYMENT_MAIN_AMT, query),
+                    gS(PAYMENT_SUBS, query),
+                    gS(EMR, query),
+                    gS(SHIFT, query),
+                    gS(PRICETYPE, query)
+            ));
+        }
+        return models;
+
     }
 
 

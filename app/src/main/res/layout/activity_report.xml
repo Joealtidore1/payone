@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ReportActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/main_toolbar_alt"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select payment date to fetch report"
+                android:textColor="@color/teal_200"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="select payment date"
+                android:inputType="date"
+                android:background="@drawable/edt"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:id="@+id/searchfield"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="FETCH"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_bg2"
+                android:textColor="#fff"
+                android:elevation="20dp"/>
+
+                <TextView
+                    android:id="@+id/nTransactions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1 Transaction"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/pangram"
+                    android:textColor="@color/teal_200"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                >
+                <TextView
+                    android:id="@+id/nSynced"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1 Synced"
+                    android:textSize="22sp"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:layout_toStartOf="@+id/view"
+                    android:fontFamily="@font/pangram"
+                    android:textColor="@color/teal_200"/>
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="3dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/teal_200"/>
+                <TextView
+                    android:id="@+id/nUnSynced"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1 Unsynced"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_toEndOf="@+id/view"
+                    android:fontFamily="@font/pangram"
+                    android:textColor="@color/teal_200"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sync"
+                android:textColor="@color/white"
+                android:background="@drawable/s_bg"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="Sync All"
+                android:padding="10dp"
+                android:drawableStart="@drawable/upload"
+                android:drawablePadding="10dp"/>
+
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="5dp"
+                >
+
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!--<RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:background="@color/teal_700">
+
+        <include layout="@layout/main_nav_drawer" />
+    </RelativeLayout>-->
+
+</RelativeLayout>

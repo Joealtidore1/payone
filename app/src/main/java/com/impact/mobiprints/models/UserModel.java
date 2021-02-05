@@ -14,6 +14,8 @@ public class UserModel {
     private String phoneNumber;
 
 
+
+
     public UserModel(int id, String userId, String name, String email, String address, String organization, String username, String mdaCode, String lastLogin, String location, String phoneNumber) {
         this.id = id;
         this.userId = userId;
@@ -26,6 +28,7 @@ public class UserModel {
         this.lastLogin = lastLogin;
         this.location = location;
         this.phoneNumber = phoneNumber;
+
     }
 
     public int getId() {

@@ -36,6 +36,7 @@ public class PaymentModel {
     private String emr;
     String shift;
     String priceType;
+    String billno;
 
 
     public String getDesc() {
@@ -111,6 +112,22 @@ public class PaymentModel {
         this.subs = subs;
         this.emr = emr;
         this.shift = shift;
+        this.priceType = priceType;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
         this.priceType = priceType;
     }
 
@@ -368,5 +385,56 @@ public class PaymentModel {
 
     public void setEmr(String emr) {
         this.emr = emr;
+    }
+
+
+    public void setBillno(String billno) {
+        this.billno = billno;
+    }
+
+    public String getBillNo() {
+        return billno;
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentModel{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", payerName='" + payerName + '\'' +
+                ", payerPhone='" + payerPhone + '\'' +
+                ", payerEmail='" + payerEmail + '\'' +
+                ", paymentDate='" + paymentDate + '\'' +
+                ", paymentTime='" + paymentTime + '\'' +
+                ", agent='" + agent + '\'' +
+                ", revenueHead='" + revenueHead + '\'' +
+                ", synced='" + synced + '\'' +
+                ", ref='" + ref + '\'' +
+                ", previousBalance='" + previousBalance + '\'' +
+                ", currentBalance='" + currentBalance + '\'' +
+                ", rrr='" + rrr + '\'' +
+                ", location='" + location + '\'' +
+                ", mdaId='" + mdaId + '\'' +
+                ", revId='" + revId + '\'' +
+                ", agentId='" + agentId + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", transFee='" + transFee + '\'' +
+                ", total='" + total + '\'' +
+                ", method='" + method + '\'' +
+                ", revCode='" + revCode + '\'' +
+                ", lastSerial='" + lastSerial + '\'' +
+                ", dept='" + dept + '\'' +
+                ", department='" + department + '\'' +
+                ", cate='" + cate + '\'' +
+                ", category='" + category + '\'' +
+                ", discount='" + discount + '\'' +
+                ", mainAmt='" + mainAmt + '\'' +
+                ", subs='" + subs + '\'' +
+                ", desc='" + desc + '\'' +
+                ", emr='" + emr + '\'' +
+                ", shift='" + shift + '\'' +
+                ", priceType='" + priceType + '\'' +
+                ", billno='" + billno + '\'' +
+                '}';
     }
 }

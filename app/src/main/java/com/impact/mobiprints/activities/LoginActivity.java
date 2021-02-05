@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     TextInputEditText username, password;
     ProgressBar progressBar;
     DBHelper db;
+    Runnable runnable;
 
 
     @Override
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 1000);
 
     }
+
 
     private void initDB(){
         db = new DBHelper(getApplicationContext());
@@ -73,6 +75,13 @@ public class LoginActivity extends AppCompatActivity {
             getLoginResponse();
         }
     }
+
+    Runnable run = new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    };
 
     public void getLoginResponse(){
         progressBar.setVisibility(View.VISIBLE);
@@ -125,44 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
-        /*String uuid = SystemInformation.getUuid(LoginActivity.this);
-        String model = SystemInformation.getModel();
-        String manufacturer = SystemInformation.getManufacturer();
-        String serial = SystemInformation.getSerial();
-        String version = SystemInformation.getVersion();
-        Call<JSONResponse> login = new ApiClient().getApi().login(un,
-                pw,
-                uuid,
-                serial,
-                manufacturer,
-                version,
-                model,
-                Definitions.X_API_KEY);
-
-        login.enqueue(new Callback<JSONResponse>() {
-            @Override
-            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
-                try{
-                    JSONResponse rp = response.body();
-                    if(rp.isStatus()) {
-                        appDefaults = rp.getAppDefaultsSchema();
-                        category = rp.getCategorySchemas();
-                        department = rp.getDepartmentSchemas();
-                        userDetails = rp.getResponseSchema();
-                        revHeads = rp.getRevenueHeads();
-                        wallet = rp.getWalletSchema();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JSONResponse> call, Throwable t) {
-
-            }
-        });*/
     }
 
 

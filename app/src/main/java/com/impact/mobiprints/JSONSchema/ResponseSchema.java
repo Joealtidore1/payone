@@ -24,9 +24,13 @@ public class ResponseSchema {
     @Expose
     String organisation;
 
-    @SerializedName("userId")
+    @SerializedName("userID")
     @Expose
     String userId;
+
+    @SerializedName("mdaID")
+    @Expose
+    String mdaId;
 
     @SerializedName("username")
     @Expose
@@ -43,6 +47,14 @@ public class ResponseSchema {
     @SerializedName("location")
     @Expose
     String location;
+
+    public String getMdaId() {
+        return mdaId;
+    }
+
+    public void setMdaId(String mdaId) {
+        this.mdaId = mdaId;
+    }
 
     public String getName() {
         return name;
