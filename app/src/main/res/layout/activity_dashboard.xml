@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
+    tools:context=".activities.Dashboard">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/main_toolbar" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/balance_bg"
+            android:elevation="50dp"
+            android:layout_gravity="center"
+            >
+
+            <TextView
+
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="@font/larsseit"
+                android:layout_marginStart="20dp"
+                android:text="Balance"
+                android:id="@+id/currency"
+                android:textColor="#FFF"
+                />
+
+            <TextView
+                android:id="@+id/balanceTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/pangram"
+                android:layout_marginBottom="10dp"
+                android:text="N 222,202,000.00"
+                android:textAlignment="center"
+                android:textColor="#fff"
+                android:textSize="32sp" />
+
+           <!-- <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today's Transactions (03-02-2021)"
+                android:textColor="#ccc"
+                android:layout_marginStart="15dp"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/numOfTrans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="0 Transactions"
+                android:layout_marginTop="10dp"
+                android:textColor="#ddd"
+                android:textSize="18sp"/>-->
+
+
+
+
+
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#cdcdcd"
+            android:elevation="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:id="@+id/currentTransactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:id="@+id/todayTHD"
+                        android:padding="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/teal_200"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/nTransactions"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="25sp"
+                            android:layout_weight="1"
+                            android:text="4 Transactions"
+                            android:textColor="@color/teal_200"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:layout_marginVertical="8dp"
+                            android:background="@color/teal_200" />
+
+                        <TextView
+                            android:id="@+id/nCharge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="25sp"
+                            android:layout_weight="1"
+                            android:text="N 2000000"
+                            android:textAlignment="center"
+                            android:textColor="@color/teal_200"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_below="@id/currentTransactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Overall Transactions"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/teal_200"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/teal_200"
+                        android:fontFamily="@font/pangram"
+                        android:layout_gravity="center"
+                        android:text="N 2000000"
+                        android:layout_margin="20dp"
+                        android:id="@+id/totalTransactions"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:background="@color/teal_700">
+
+        <include layout="@layout/main_nav_drawer" />
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

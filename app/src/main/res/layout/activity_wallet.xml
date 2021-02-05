@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.WalletActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/balance_bg"
+        android:elevation="50dp"
+        android:layout_gravity="center"
+        android:id="@+id/hhh"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:onClick="backHandle"/>
+
+        <TextView
+
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="@font/larsseit"
+            android:layout_marginStart="20dp"
+            android:text="Balance"
+            android:id="@+id/currency"
+            android:textColor="#FFF"
+            />
+
+        <TextView
+            android:id="@+id/balanceTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/pangram"
+            android:layout_marginBottom="10dp"
+            android:text="N 222,202,000.00"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="32sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical"
+        android:layout_below="@id/hhh"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teal_200"
+            android:textSize="16sp"
+            android:fontFamily="@font/larsseit"
+            android:text="Recharge Voucher"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:fontFamily="@font/larsseit"
+            android:id="@+id/rechargeVoucher"
+            android:padding="10dp"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:background="@drawable/edt"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg2"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:textColor="#dedede"
+            android:onClick="recharge"
+            android:textSize="18sp"
+            android:text="Recharge"
+            android:padding="10dp"/>
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:SpinKit_Color="@color/teal_700"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:elevation="200dp"
+            style="@style/SpinKitView.Circle"/>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

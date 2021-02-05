@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF010E29"
+    tools:context=".activities.LoginActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:src="@drawable/logo"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:id="@+id/imv"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:hint="Username"
+        android:layout_below="@+id/imv"
+        android:padding="10dp"
+        android:textColorHint="#ccc"
+        android:id="@+id/userNameTL">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            android:textColor="#ccc"
+            android:backgroundTint="#009"
+            android:inputType="textPersonName|textAutoComplete"
+            android:paddingBottom="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:hint="Password"
+        android:backgroundTint="#284D79"
+        android:padding="10dp"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="#ccc"
+        android:layout_below="@+id/userNameTL"
+        android:textColorHint="#ccc"
+        android:id="@+id/passwordTL">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password"
+            android:textColor="#ccc"
+            android:backgroundTint="#009"
+            android:inputType="textPersonName|textAutoComplete"
+            android:paddingBottom="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signing"
+        android:text="LOGIN"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/passwordTL"
+        android:background="@drawable/button_bg"
+        android:textColor="#fff"
+        />
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:SpinKit_Color="@color/textColorGrey"
+        android:visibility="gone"
+        android:elevation="200dp"
+        style="@style/SpinKitView.Circle"/>
+
+
+
+
+
+
+</RelativeLayout>
