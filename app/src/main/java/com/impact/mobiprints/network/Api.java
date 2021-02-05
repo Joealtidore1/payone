@@ -15,13 +15,7 @@ public interface Api {
     @FormUrlEncoded
     Call<JSONResponse> login(
             @Field("username") String username,
-            @Field("password") String password,
-            @Field("uuid") String uuid,
-            @Field("serial") String serial,
-            @Field("manufacturer") String manufacturer,
-            @Field("version") String version,
-            @Field("model") String model,
-            @Field("X-API-KEY") String apiKey
+            @Field("password") String password
     );
 
     @POST("sync/updateWallet")

@@ -2,6 +2,7 @@ package com.impact.mobiprints.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,12 +41,14 @@ public class PaymentActivity extends AppCompatActivity {
     List<String> departments, revHeads, paymentMethods, priceTypes;
     List<Double> amounts;
 
-    List<String> dept, rHeads, pMethods, pTypes;
+    List<String> dept, rHeads, pMethods, pTypes, sShifts, pTypeValues;
     DBHelper db;
     List<DepartmentsModel> dModel;
     List<RevHeadsModel> rModel;
-    Spinner department, revHead, payMethod, priceType;
+    Spinner department, revHead, payMethod, priceType, shift;
     EditText amount;
+
+
 
     EditText payerName, payerPhone, payerEmail;
 
@@ -62,7 +65,7 @@ public class PaymentActivity extends AppCompatActivity {
     String rvHead, rrr=null;
     String pRef;
 
-    String location;
+    String location, shiftData;
     String mdaId, pName, pEmail, pNum, pMethod;
     String revId;
     String total;
@@ -80,7 +83,7 @@ public class PaymentActivity extends AppCompatActivity {
         walletModel = db.getWallet();
         userModel = db.getUsers();
         agent = walletModel.getAgent();
-        pRef = agent + "-" + date.substring(3).replace("-", "") + time.replace(":", "");
+        pRef = userModel.getMdaCode() + "-" + Helper.getRef();
         prev_balance = walletModel.getBalance();
         location = userModel.getLocation();
         transFee = 0;
@@ -109,6 +112,7 @@ public class PaymentActivity extends AppCompatActivity {
         linearList = findViewById(R.id.linearList);
         addPD = findViewById(R.id.addPD);
         amountToPay = findViewById(R.id.payableAmount);
+        shift = findViewById(R.id.shift);
 
 
         departments = new ArrayList<>();
@@ -119,18 +123,35 @@ public class PaymentActivity extends AppCompatActivity {
         pMethods = new ArrayList<>();
         pTypes = new ArrayList<>();
         priceTypes = new ArrayList<>();
+        sShifts = new ArrayList<>();
+        pTypeValues = new ArrayList<>();
 
-
+        sShifts.add("--select shift--");
+        sShifts.add("1");
+        sShifts.add("2");
+        sShifts.add("3");
         dept.add("--select department--");
         pMethods.add("--payment method--");
-        pTypes.add("Default");
+
         pMethods.add("Card");
         pMethods.add("Cash");
         dModel = db.getDepts();
 
-        pTypes.add("Child");
-        pTypes.add("Adult");
-        pTypes.add("Worker");
+        pTypes.add("Default");
+        pTypes.add("Hospital Child");
+        pTypes.add("Staff");
+        pTypes.add("Non Hospital Child");
+        pTypes.add("Non Hospital Adult");
+        pTypes.add("CMPC LOC");
+
+        pTypeValues.add("default");
+        pTypeValues.add("hoschild");
+        pTypeValues.add("staff");
+        pTypeValues.add("nonhoschild");
+        pTypeValues.add("nonhosadult");
+        pTypeValues.add("cmpc");
+
+
 
 
 
@@ -138,6 +159,10 @@ public class PaymentActivity extends AppCompatActivity {
         for(DepartmentsModel d : dModel){
             dept.add(d.getDeptName());
         }
+
+        ArrayAdapter<String> shiftAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sShifts);
+        shift.setAdapter(shiftAdapter);
+        shiftAdapter.notifyDataSetChanged();
 
 
         ArrayAdapter<String> pMethodAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pMethods);
@@ -166,6 +191,11 @@ public class PaymentActivity extends AppCompatActivity {
         ArrayAdapter<String> pTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pTypes);
         priceType.setAdapter(pTypeAdapter);
         pTypeAdapter.notifyDataSetChanged();
+
+        rHeads = new ArrayList<>();
+        rHeads.add("--add revenue head--");
+        ArrayAdapter<String> rHeadAdapter = new ArrayAdapter<>(PaymentActivity.this, android.R.layout.simple_spinner_item, rHeads);
+        revHead.setAdapter(rHeadAdapter);
 
         amount.addTextChangedListener(new TextWatcher() {
             int len;
@@ -201,14 +231,12 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0) {
-                    rHeads = new ArrayList<>();
-                    rHeads.add("--add revenue head--");
+
                     rModel = db.getRevHeadsByDept(dept.get(position));
                     for(RevHeadsModel r : rModel){
                         rHeads.add(r.getRevenueHead());
                     }
-                    ArrayAdapter<String> rHeadAdapter = new ArrayAdapter<>(PaymentActivity.this, android.R.layout.simple_spinner_item, rHeads);
-                    revHead.setAdapter(rHeadAdapter);
+
                    rHeadAdapter.notifyDataSetChanged();
                 }
             }
@@ -244,7 +272,7 @@ public class PaymentActivity extends AppCompatActivity {
         departments.add(department.getSelectedItem().toString());
         revHeads.add(revHead.getSelectedItem().toString());
         amounts.add(Double.parseDouble(amount.getText().toString()));
-        priceTypes.add(priceType.getSelectedItem().toString());
+        priceTypes.add(pTypeValues.get((int)priceType.getSelectedItemId()));
 
         addViews();
     }
@@ -271,6 +299,12 @@ public class PaymentActivity extends AppCompatActivity {
             showToast("select payment method");
             return;
         }
+
+        if(shift.getSelectedItemId() == 0){
+            showToast("select shift");
+            return;
+        }
+
         if(department.getSelectedItemId() != 0) {
             departments.add(department.getSelectedItem().toString());
             revHeads.add(revHead.getSelectedItem().toString());
@@ -285,6 +319,8 @@ public class PaymentActivity extends AppCompatActivity {
         addPD.setEnabled(false);
 
         initVar();
+
+        shiftData = shift.getSelectedItem().toString();
 
         for(String s : departments){
             Log.d("DEPARTMENTS", s);
@@ -330,22 +366,30 @@ public class PaymentActivity extends AppCompatActivity {
                         rModel.get(rIndex).getCate() + "",
                         rModel.get(rIndex).getCategory() + "",
                         0 + "", amounts.get(i) + "",
-                        rModel.get(rIndex).getSubs() + ""
+                        rModel.get(rIndex).getSubs() + "",
+                         rModel.get(rIndex).getEmr(),
+                         shiftData,
+                         rModel.get(rIndex).getPriceType()
                 );
             }
 
             boolean b = db.addPayment(paymentModel);
+            prev_balance = curr_balance;
             if(b){
+                db.updateWallet(prev_balance);
                 showToast("success");
             }else{
                 showToast("failure");
             }
-            prev_balance = curr_balance;
+
         }
+
+        startInvoice();
     }
 
-    public void initPayment(){
-
+    public void startInvoice(){
+        startActivity(new Intent(PaymentActivity.this, InvoiceActivity.class).putExtra("transRef", pRef));
+        finish();
     }
 
     public int revHeadId(String val){

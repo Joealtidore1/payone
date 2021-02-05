@@ -42,7 +42,20 @@ public class RevenueHeads {
 
     @SerializedName("emr")
     @Expose
-    int emr;
+    String emr;
+
+    @SerializedName("pricetype")
+    @Expose
+    String pricetype;
+
+
+    public String getPricetype() {
+        return pricetype;
+    }
+
+    public void setPricetype(String pricetype) {
+        this.pricetype = pricetype;
+    }
 
     public int getId() {
         return id;
@@ -116,11 +129,11 @@ public class RevenueHeads {
         this.revenueHead = revenueHead;
     }
 
-    public int getEmr() {
+    public String getEmr() {
         return emr;
     }
 
-    public void setEmr(int emr){
+    public void setEmr(String emr){
         this.emr = emr;
     }
 }

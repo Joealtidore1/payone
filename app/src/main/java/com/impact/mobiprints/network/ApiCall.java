@@ -36,13 +36,7 @@ public class ApiCall {
         String serial = SystemInformation.getSerial();
         String version = SystemInformation.getVersion();
         Call<JSONResponse> login = new ApiClient().getApi().login(un,
-                pw,
-                uuid,
-                serial,
-                manufacturer,
-                version,
-                model,
-                Definitions.X_API_KEY);
+                pw);
 
         login.enqueue(new Callback<JSONResponse>() {
             @Override
@@ -76,7 +70,7 @@ public class ApiCall {
                                         departmentModel.add(new DepartmentsModel(0, dp.getDeptID(), dp.getDeptName(), dp.getDeptAbbr()));
                                     }
                                     for (RevenueHeads rh : rp.getRevenueHeads()) {
-                                        revHeadsModel.add(new RevHeadsModel(0, rh.getRevenueHead(), rh.getCode(), rh.getId(), rh.getAmount(), rh.getDept(), rh.getDepartment(), rh.getCate(), rh.getCategory(), rh.getSubs()/*, rh.getEmr()*/));
+                                        revHeadsModel.add(new RevHeadsModel(0, rh.getRevenueHead(), rh.getCode(), rh.getId(), rh.getAmount(), rh.getDept(), rh.getDepartment(), rh.getCate(), rh.getCategory(), rh.getSubs(), rh.getEmr(), rh.getPricetype()));
                                     }
 
                                     ResponseSchema us = rp.getResponseSchema();

@@ -1,6 +1,5 @@
 package com.impact.mobiprints.network;
 
-import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -9,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://app.payoneapp.com/api/"; /*"https://fmca.payoneapp.com/api/";*/
+    private static final String BASE_URL = /*"https://app.payoneapp.com/api/";*/ "https://fmca.payoneapp.com/api/";
     Api api;
 
     public ApiClient(){

@@ -23,6 +23,15 @@ public class Helper {
         return  strDate;
     }
 
+    public static String getRef(){
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-ssmmhh");
+        String strDate= formatter.format(date);
+
+        return  strDate;
+    }
+
+
     public static String getTime(){
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss");

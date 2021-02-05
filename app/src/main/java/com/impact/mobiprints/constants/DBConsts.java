@@ -10,9 +10,12 @@ public class DBConsts {
     public static final String CAT = "cate";
     public static final String CATEGORY = "category";
 
+
     //ID COLUMN
     public static final String ID =  "id";
     public static final String EMR = "emr";
+    public static final String SHIFT = "shift";
+    public static final String PRICETYPE = "pricetype";
     private static final String createId =  "(  "  + ID +  "  INTEGER PRIMARY KEY AUTOINCREMENT,  " ;
     private static final String text =  "  TEXT,  ";
 
@@ -139,6 +142,7 @@ public class DBConsts {
             CAT + text +
             CATEGORY + text +
             EMR + text +
+            PRICETYPE + text +
             REV_SUBS +  " TEXT ); " ;
 
 
@@ -177,6 +181,8 @@ public class DBConsts {
             PAYMENT_MAIN_AMT + text +
             PAYMENT_DESC + text +
             EMR + text +
+            PRICETYPE + text +
+            SHIFT + text +
             PAYMENT_SUBS +  "  TEXT); " ;
 
 

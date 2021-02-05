@@ -306,8 +306,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     gS("department", query),
                     gS("cate", query),
                     gS("category", query),
-                    gS("subs", query)/*,
-                    gI(EMR, query)*/
+                    gS("subs", query),
+                    gS(EMR, query),
+                    gS(PRICETYPE,query)
             ));
         }
         return models;
@@ -347,8 +348,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     gS(DEPARTMENT, query),
                     gS(CAT, query),
                     gS(CATEGORY, query),
-                    gS(REV_SUBS, query)/*,
-                    gI(EMR, query)*/
+                    gS(REV_SUBS, query),
+                    gS(EMR, query),
+                    gS(PRICETYPE,query)
             ));
         }
         return models;
@@ -431,8 +433,10 @@ public class DBHelper extends SQLiteOpenHelper {
                     gS(CATEGORY, query),
                     gS(PAYMENT_DISCOUNT, query),
                     gS(PAYMENT_MAIN_AMT, query),
-                    gS(PAYMENT_SUBS, query)/*,
-                    gI(EMR, query)*/
+                    gS(PAYMENT_SUBS, query),
+                    gS(EMR, query),
+                    gS(SHIFT, query),
+                    gS(PRICETYPE, query)
             ));
         }
         return models;

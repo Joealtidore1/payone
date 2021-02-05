@@ -10,9 +10,10 @@ public class RevHeadsModel {
     String cate;
     String category;
     String subs;
-    private int emr;
+    private String emr;
+    String priceType;
 
-    public RevHeadsModel(int id, String revenueHead, String revenueCode, int revenueId, String amount, String dept, String department, String cate, String category, String subs/*, int emr*/) {
+    public RevHeadsModel(int id, String revenueHead, String revenueCode, int revenueId, String amount, String dept, String department, String cate, String category, String subs, String emr, String priceType) {
         this.id = id;
         this.revenueHead = revenueHead;
         this.revenueCode = revenueCode;
@@ -23,7 +24,16 @@ public class RevHeadsModel {
         this.cate = cate;
         this.category = category;
         this.subs = subs;
-       /* this.emr = emr;*/
+        this.emr = emr;
+        this.priceType = priceType;
+    }
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
+        this.priceType = priceType;
     }
 
     public int getId() {
@@ -106,11 +116,11 @@ public class RevHeadsModel {
         this.subs = subs;
     }
 
-    /*public int getEmr() {
+    public String getEmr() {
         return emr;
     }
 
-    public void setEmr(int emr) {
+    public void setEmr(String emr) {
         this.emr = emr;
-    }*/
+    }
 }

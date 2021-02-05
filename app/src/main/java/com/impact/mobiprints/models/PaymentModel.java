@@ -33,7 +33,9 @@ public class PaymentModel {
     String mainAmt;
     String subs;
     String desc;
-    private int emr;
+    private String emr;
+    String shift;
+    String priceType;
 
 
     public String getDesc() {
@@ -74,8 +76,8 @@ public class PaymentModel {
                         String category,
                         String discount,
                         String mainAmt,
-                        String subs/*,
-                        int emr*/) {
+                        String subs,
+                        String emr, String shift, String priceType) {
         this.id = id;
         this.amount = amount;
         this.payerName = payerName;
@@ -107,7 +109,9 @@ public class PaymentModel {
         this.discount = discount;
         this.mainAmt = mainAmt;
         this.subs = subs;
-       /* this.emr = emr;*/
+        this.emr = emr;
+        this.shift = shift;
+        this.priceType = priceType;
     }
 
     public int getId() {
@@ -358,7 +362,11 @@ public class PaymentModel {
         this.subs = subs;
     }
 
-    public int getEmr() {
+    public String getEmr() {
         return emr;
+    }
+
+    public void setEmr(String emr) {
+        this.emr = emr;
     }
 }
